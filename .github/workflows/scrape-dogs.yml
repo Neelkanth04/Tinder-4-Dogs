@@ -1,0 +1,50 @@
+name: Scrape Dogs Data
+
+on:
+  schedule:
+    # Run every 1.5 hours (at minute 0 and 30 of every 3rd hour)
+    - cron: '0 */3 * * *'    # Run at minute 0 of every 3rd hour
+    - cron: '30 */3 * * *'   # Run at minute 30 of every 3rd hour
+  # Allow manual trigger
+  workflow_dispatch:
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Fetch all history for proper git operations
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Run scraper
+      run: node scrape.js
+    
+    - name: Check for changes
+      id: git-check
+      run: |
+        git config --global user.name 'GitHub Actions'
+        git config --global user.email 'actions@github.com'
+        git add dogs.json
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+          echo "has_changes=false" >> $GITHUB_OUTPUT
+        else
+          echo "Changes detected"
+          echo "has_changes=true" >> $GITHUB_OUTPUT
+        fi
+    
+    - name: Commit and push if changed
+      if: steps.git-check.outputs.has_changes == 'true'
+      run: |
+        git commit -m "Update dog data [skip ci]"
+        git push 
