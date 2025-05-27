@@ -34,7 +34,7 @@ jobs:
       run: |
         git config --global user.name 'GitHub Actions'
         git config --global user.email 'actions@github.com'
-        git add dogs.json
+        git add src/app/dogs.json
         if git diff --staged --quiet; then
           echo "No changes to commit"
           echo "has_changes=false" >> $GITHUB_OUTPUT
