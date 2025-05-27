@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+@layer base {
+  :root {
+    --background: 210 40% 98%; /* Light Cool Gray */
+    --foreground: 215 25% 20%; /* Dark Cool Gray-Blue */
+
+    --card: 0 0% 100%; /* Pure White for cards */
+    --card-foreground: 215 25% 20%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 20%;
+
+    --primary: 200 100% 65%; /* Brighter, cute Sky Blue */
+    --primary-foreground: 215 25% 10%; /* Dark blue for contrast */
+
+    --secondary: 210 70% 90%; /* Lighter, soft cute Powder Blue */
+    --secondary-foreground: 210 50% 30%;
+
+    --muted: 210 40% 94%; /* Light Gray-Blue */
+    --muted-foreground: 215 20% 45%; /* Medium-Dark Gray-Blue text */
+
+    --accent: 340 100% 70%; /* Brighter, cute Playful Pink */
+    --accent-foreground: 0 0% 100%; /* White text for contrast on bright pink */
+
+    --destructive: 0 70% 55%; /* Clear Red */
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 210 40% 85%; /* Softer border */
+    --input: 210 40% 96%; /* Very Light input background */
+    --ring: 200 100% 65%; /* Primary color for focus rings */
+
+    --chart-1: 200 70% 60%;
+    --chart-2: 340 70% 65%;
+    --chart-3: 180 50% 60%;
+    --chart-4: 40 80% 65%;
+    --chart-5: 210 70% 65%;
+
+    --sidebar-background: 210 50% 94%;
+    --sidebar-foreground: 215 25% 15%;
+    --sidebar-primary: 200 100% 65%;
+    --sidebar-primary-foreground: 215 25% 10%;
+    --sidebar-accent: 340 100% 70%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 210 30% 82%;
+    --sidebar-ring: 200 100% 65%;
+
+    --heading-gradient-from: 200 85% 50%; /* Darker Sky Blue for heading */
+    --heading-gradient-to: 340 85% 55%; /* Darker Playful Pink for heading */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    min-height: 100vh;
+  }
+}
+
+/* Stitched effect class */
+.stitched-border {
+  @apply border-2 border-dashed border-primary/50;
+}
+
+/* Fabric texture attempt - subtle */
+.fabric-texture {
+    background-image: linear-gradient(45deg, hsla(var(--primary) / 0.05) 25%, transparent 25%, transparent 75%, hsla(var(--primary) / 0.05) 75%, hsla(var(--primary) / 0.05)),
+                      linear-gradient(-45deg, hsla(var(--primary) / 0.05) 25%, transparent 25%, transparent 75%, hsla(var(--primary) / 0.05) 75%, hsla(var(--primary) / 0.05));
+    background-size: 10px 10px;
+}
