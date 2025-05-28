@@ -2,10 +2,11 @@ name: Scrape Dogs Data
 
 on:
   schedule:
-    # Run at minute 0 of every hour
-    - cron: '0 * * * *'
+    # Run every 30 minutes
+    - cron: '*/30 * * * *'
   # Allow manual trigger
   workflow_dispatch:
+
 
 
 jobs:
