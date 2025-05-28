@@ -20,6 +20,7 @@ jobs:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0  # Fetch all history for proper git operations
+        ref: main  # Explicitly checkout main branch
 
     - name: Setup Node.js
       uses: actions/setup-node@v4
@@ -51,12 +52,19 @@ jobs:
           fi
         done
 
-    - name: Check for changes
-      id: git-check
+    - name: Configure Git
       run: |
         git config --global user.name 'GitHub Actions'
         git config --global user.email 'actions@github.com'
-        
+        git config --global pull.rebase true  # Use rebase instead of merge
+
+    - name: Pull latest changes
+      run: |
+        git pull origin main || true  # Continue even if pull fails
+
+    - name: Check for changes
+      id: git-check
+      run: |
         git add src/app/dogs.json
         
         if git diff --staged --quiet; then
@@ -81,4 +89,9 @@ jobs:
     - name: Push changes
       if: steps.git-check.outputs.has_changes == 'true'
       run: |
-        git push origin main
+        # Try to push with rebase
+        git pull --rebase origin main
+        git push origin main || {
+          echo "Push failed, trying force push..."
+          git push -f origin main
+        }
