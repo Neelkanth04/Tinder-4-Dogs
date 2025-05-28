@@ -26,6 +26,19 @@ export const metadata: Metadata = {
   title: 'Tinder for Dogs - Find Your Canine Companion',
   description: 'The paw-fect place to find your next furry friend. It\'s like Tinder, but for dogs!',
   icons: '/favicon.png',
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+    viewportFit: 'cover',
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Tinder for Dogs',
+  },
+  themeColor: '#000000',
 };
 
 export default function RootLayout({
@@ -39,7 +52,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} ${bahiana.variable} antialiased font-sans bg-background text-foreground`}>
+      <head>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="theme-color" content="#000000" />
+      </head>
+      <body className={`${geistSans.variable} ${geistMono.variable} ${bahiana.variable} antialiased font-sans bg-background text-foreground touch-manipulation`}>
         <div className="relative min-h-screen flex flex-col">
           <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="container relative flex h-12 max-w-screen-2xl items-center justify-between px-4 sm:px-6 lg:px-8">
