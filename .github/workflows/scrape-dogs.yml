@@ -73,9 +73,9 @@ jobs:
           # Create commit message
           git commit -m "Update dog data [skip ci]
 
-- Updated at: $date
-- Total dogs: $dog_count
-- Auto-updated by GitHub Actions"
+          - Updated at: $date
+          - Total dogs: $dog_count
+          - Auto-updated by GitHub Actions"
         fi
 
     - name: Push changes
