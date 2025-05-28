@@ -14,6 +14,7 @@ concurrency:
 jobs:
   scrape:
     runs-on: ubuntu-latest
+    timeout-minutes: 15  # Add timeout
 
     steps:
     - uses: actions/checkout@v4
@@ -29,8 +30,26 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
-    - name: Run scraper
-      run: node scrape.js
+    - name: Run scraper with retry
+      id: scrape
+      run: |
+        max_attempts=3
+        attempt=1
+        while [ $attempt -le $max_attempts ]; do
+          echo "Attempt $attempt of $max_attempts"
+          if node scrape.js; then
+            echo "Scraping completed successfully"
+            exit 0
+          else
+            echo "Scraping failed on attempt $attempt"
+            if [ $attempt -eq $max_attempts ]; then
+              echo "All attempts failed"
+              exit 1
+            fi
+            attempt=$((attempt + 1))
+            sleep 30  # Wait 30 seconds before retry
+          fi
+        done
 
     - name: Check for changes
       id: git-check
@@ -46,11 +65,20 @@ jobs:
         else
           echo "Changes detected"
           echo "has_changes=true" >> $GITHUB_OUTPUT
+          
+          # Get current date and dog count
+          dog_count=$(jq 'length' src/app/dogs.json)
+          date=$(date '+%Y-%m-%d %H:%M:%S')
+          
+          # Create commit message
+          git commit -m "Update dog data [skip ci]
+
+- Updated at: $date
+- Total dogs: $dog_count
+- Auto-updated by GitHub Actions"
         fi
 
-    - name: Commit and push if changed
+    - name: Push changes
       if: steps.git-check.outputs.has_changes == 'true'
       run: |
-        git pull --rebase origin main
-        git commit -m "Update dog data [skip ci]"
-        git push
+        git push origin main
