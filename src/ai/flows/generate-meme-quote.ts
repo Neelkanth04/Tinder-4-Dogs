@@ -1,14 +1,6 @@
 
 'use server';
 
-/**
- * @fileOverview Generates a meme-style quote for a dog profile.
- *
- * - generateMemeQuote - A function that generates a meme-style quote for a dog profile.
- * - GenerateMemeQuoteInput - The input type for the generateMemeQuote function.
- * - GenerateMemeQuoteOutput - The return type for the generateMemeQuote function.
- */
-
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
@@ -31,24 +23,36 @@ const prompt = ai.definePrompt({
   name: 'generateMemeQuotePrompt',
   input: {schema: GenerateMemeQuoteInputSchema},
   output: {schema: GenerateMemeQuoteOutputSchema},
-  prompt: `You are a flirty meme generator for a dog dating app.
-Your task is to create a very short, playful, and meme-style quote for a dog's profile.
-The quote MUST be extremely concise, ideally 1-2 short lines. Think punchy one-liners or brief, witty phrases.
-Make it catchy and a bit cheeky, something that would make someone smile and want to "swipe right".
-Do NOT use the dog's specific name in the quote. Create a general flirty pun or meme-style comment.
-You can draw inspiration from the dog's breed and personality traits if provided.
+  prompt: `Create a short, funny, and flirty one-liner for a dog's dating profile.
 
-Dog Information (for inspiration, do not mention name):
-Breed: {{{dogBreed}}}
-Personality Traits: {{#each dogTraits}}{{{this}}}{{#unless @last}}, {{/unless}}{{/each}}
+Requirements:
+• Be completely original and creative — steer clear of common dog meme phrases
+• Avoid starting with: "Certified", "Fluent in", "Professional", or similar phrases
+• No clichés like: "Will work for treats", "I bury bones", "My love language is..."
+• Don't use common dog behaviors (sniffing, fetching, belly rubs, squirrels) as main themes
+• Aim for something a real dog might say on a dating show — quirky, charming, and full of personality
 
-Generate a very short, flirty meme quote.
-Examples:
-"Too glam to give a dam... about your ex. 😉"
-"Will work for belly rubs & pizza crusts."
-"Swipe right if you like bad boys who are actually good boys."
-"My love language: snacks and head scratches."
-`,
+Examples (create something very different from these):
+• "I'm here to steal your heart, not your socks... maybe just one or two. 😉"
+• "I can't promise I'll be good, but I'll definitely be unforgettable 🐾"
+• "Looking for someone to share my comfy spot on the couch. Bonus points if you bring snacks."
+• "Not just a dog — I'm the adopted life of the party."
+• "If you can keep up with my zoomies, we're in business!"
+• "I'll never ghost you... unless it's a game of hide-and-seek. 👀"
+• "Let's wag our tails together — I promise I'm worth the chase."
+• "I don't just chase cars — I chase dreams. Want to be part of mine?"
+• "Who says we can't be besties, and also something a little more? 💕"
+• "My bark might be loud, but my love is even louder. 🐕"
+• "Looking for a pup to be my partner in crime — let's make mischief together!"
+• "You bring the snacks, I'll bring the charm. Deal?"
+• "Will sit, stay, and look adorable — all you need to do is say 'yes'!"
+• "I don't fetch balls, but I'll definitely catch your heart. 💘"
+• "I might be a dog, but I'm all about human connection. Let's vibe!"
+• "Forget fetch — let's fetch some memories together!"
+• "In the mood for a cuddle... or an adventure... or both! 😏"
+• "Not every dog can handle my charisma. Think you can? 😎"
+• "I'm paws-itively ready for my next adventure, are you in?"
+• "If I had a dollar for every time I've wagged my tail at someone... well, I'd be rich in love!"`,
 });
 
 const generateMemeQuoteFlow = ai.defineFlow(
